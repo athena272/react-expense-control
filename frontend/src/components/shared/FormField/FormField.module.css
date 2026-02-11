@@ -1,0 +1,23 @@
+ .field {
+   display: flex;
+   flex-direction: column;
+   gap: 6px;
+   font-size: 14px;
+   color: #52606d;
+ }
+ 
+ .label {
+   font-weight: 600;
+   color: #334e68;
+ }
+ 
+ .counter {
+   font-size: 12px;
+   color: #9aa5b1;
+   text-align: right;
+ }
+ 
+ .error {
+   font-size: 12px;
+   color: #b91c1c;
+ }

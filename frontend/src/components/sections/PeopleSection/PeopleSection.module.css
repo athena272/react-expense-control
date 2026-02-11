@@ -1,0 +1,17 @@
+ .actions {
+   margin-top: 16px;
+   display: flex;
+   gap: 12px;
+ }
+ 
+ .rowActions {
+   display: flex;
+   gap: 8px;
+   flex-wrap: wrap;
+ }
+ 
+ .formError {
+   margin-top: 12px;
+   font-size: 13px;
+   color: #b91c1c;
+ }
