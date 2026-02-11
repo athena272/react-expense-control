@@ -1,0 +1,31 @@
+ .table {
+   margin-top: 16px;
+   display: flex;
+   flex-direction: column;
+   gap: 8px;
+ }
+ 
+ .row {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+   gap: 12px;
+   padding: 10px 12px;
+   border-radius: 8px;
+   background: #f8fafc;
+   align-items: center;
+ }
+ 
+ .row span {
+   overflow-wrap: anywhere;
+   word-break: break-word;
+ }
+ 
+ .header {
+   font-weight: 600;
+   background: #e2e8f0;
+ }
+ 
+ .total {
+   font-weight: 600;
+   background: #dbeafe;
+ }
