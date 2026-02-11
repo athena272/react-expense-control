@@ -20,7 +20,7 @@ dist-ssr
 *.suo
 *.ntvs*
 *.njsproj
-*.sln
 *.sw?
 /backend/ExpenseControl.Api/bin
 /backend/ExpenseControl.Api/obj
+backend/ExpenseControl.Api/expensecontrol.db
