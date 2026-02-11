@@ -56,11 +56,11 @@ app.UseExceptionHandler(handlerApp =>
                 .CreateLogger("GlobalExceptionHandler")
                 .LogError(exceptionHandler.Error, "Erro não tratado.");
 
-            if (isDevelopment)
-            {
-                // Detalhes apenas em Development.
-                problemDetails.Detail = exceptionHandler.Error.ToString();
-            }
+            // if (isDevelopment)
+            // {
+            //     // Detalhes apenas em Development.
+            //     problemDetails.Detail = exceptionHandler.Error.ToString();
+            // }
         }
 
         problemDetails.Extensions["traceId"] = Activity.Current?.Id ?? context.TraceIdentifier;
