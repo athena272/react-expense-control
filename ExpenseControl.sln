@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{A1630AD8-AB44-4BA5-9451-33D1C4ACE60F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "backend", "backend", "{5948D63F-471E-415A-BC08-D7BB29141B13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseControl.Api", "backend\ExpenseControl.Api\ExpenseControl.Api.csproj", "{AEF4F364-895A-49EB-B307-D9641F9BBD0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseControl.Api", "backend\ExpenseControl.Api\ExpenseControl.Api.csproj", "{36244DBD-8186-4C56-9CB9-75D4DAC4EEAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,12 +16,12 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{AEF4F364-895A-49EB-B307-D9641F9BBD0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AEF4F364-895A-49EB-B307-D9641F9BBD0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AEF4F364-895A-49EB-B307-D9641F9BBD0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AEF4F364-895A-49EB-B307-D9641F9BBD0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36244DBD-8186-4C56-9CB9-75D4DAC4EEAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36244DBD-8186-4C56-9CB9-75D4DAC4EEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36244DBD-8186-4C56-9CB9-75D4DAC4EEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36244DBD-8186-4C56-9CB9-75D4DAC4EEAD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{AEF4F364-895A-49EB-B307-D9641F9BBD0B} = {A1630AD8-AB44-4BA5-9451-33D1C4ACE60F}
+		{36244DBD-8186-4C56-9CB9-75D4DAC4EEAD} = {5948D63F-471E-415A-BC08-D7BB29141B13}
 	EndGlobalSection
 EndGlobal
