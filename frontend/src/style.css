@@ -90,5 +90,6 @@ button.danger {
 
 .input-error {
   border-color: #f87171;
+  outline: #f87171;
 }
 

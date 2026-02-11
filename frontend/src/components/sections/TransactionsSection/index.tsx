@@ -68,6 +68,7 @@ export default function TransactionsSection({
             onChange={(event) => onDescriptionChange(event.target.value)}
             maxLength={400}
             placeholder="Ex.: Mercado"
+            name='descricao-transacao'
           />
         </FormField>
         <FormField label="Valor" error={errors.value}>
@@ -78,6 +79,7 @@ export default function TransactionsSection({
             value={form.value}
             onChange={(event) => onValueChange(event.target.value)}
             placeholder="0,00"
+            name='valor-transacao'
           />
         </FormField>
         <FormField label="Tipo">
@@ -85,6 +87,7 @@ export default function TransactionsSection({
             value={form.type}
             onChange={(event) => onTypeChange(event.target.value as TransactionType)}
             disabled={isTypeDisabled}
+            name='tipo-transacao'
           >
             <option value="Expense">Despesa</option>
             <option value="Income">Receita</option>
@@ -95,6 +98,7 @@ export default function TransactionsSection({
             className={errors.personId ? 'input-error' : undefined}
             value={form.personId}
             onChange={(event) => onPersonChange(event.target.value)}
+            name='pessoa-transacao'
           >
             <option value="">Selecione</option>
             {people.map((person) => (
@@ -109,6 +113,7 @@ export default function TransactionsSection({
             className={errors.categoryId ? 'input-error' : undefined}
             value={form.categoryId}
             onChange={(event) => onCategoryChange(event.target.value)}
+            name='categoria-transacao'
           >
             <option value="">Selecione</option>
             {availableCategories.map((category) => (
