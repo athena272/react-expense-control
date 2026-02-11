@@ -43,6 +43,7 @@ export default function CategoriesSection({
             onChange={(event) => onDescriptionChange(event.target.value)}
             maxLength={400}
             placeholder="Ex.: Alimentação"
+            name='descricao-categoria'
           />
         </FormField>
         <FormField label="Finalidade">
@@ -52,6 +53,7 @@ export default function CategoriesSection({
             onChange={(event) =>
               onPurposeChange(event.target.value as CategoryPurpose)
             }
+            name='finalidade-categoria'
           >
             <option value="Expense">Despesa</option>
             <option value="Income">Receita</option>
