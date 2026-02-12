@@ -1,23 +1,21 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
-  createCategory,
-  createPerson,
-  createTransaction,
-  deletePerson,
   getCategories,
   getCategoryTotals,
   getPeople,
   getPeopleTotals,
   getTransactions,
-  updatePerson,
 } from './api'
 import CategoriesSection from '@components/sections/CategoriesSection'
 import CategoryTotalsSection from '@components/sections/CategoryTotalsSection'
 import PeopleSection from '@components/sections/PeopleSection'
 import PeopleTotalsSection from '@components/sections/PeopleTotalsSection'
 import TransactionsSection from '@components/sections/TransactionsSection'
+import { useCategoryActions } from './hooks/useCategoryActions'
 import { useCategoryForm } from './hooks/useCategoryForm'
+import { usePersonActions } from './hooks/usePersonActions'
 import { usePeopleForm } from './hooks/usePeopleForm'
+import { useTransactionActions } from './hooks/useTransactionActions'
 import { useTransactionForm } from './hooks/useTransactionForm'
 import type {
   Category,
@@ -80,6 +78,8 @@ export default function App() {
     useState<PeopleTotalsReport>(defaultPeopleTotals)
   const [categoryTotals, setCategoryTotals] =
     useState<CategoryTotalsReport>(defaultCategoryTotals)
+  const [loadError, setLoadError] = useState<string | null>(null)
+
   const {
     personForm,
     editingPersonId,
@@ -114,9 +114,60 @@ export default function App() {
     reset: resetTransactionForm,
   } = useTransactionForm()
 
+  const loadAll = useCallback(async () => {
+    try {
+      setLoadError(null)
+      const [
+        peopleData,
+        categoryData,
+        transactionData,
+        peopleTotalsData,
+        categoryTotalsData,
+      ] = await Promise.all([
+        getPeople(),
+        getCategories(),
+        getTransactions(),
+        getPeopleTotals(),
+        getCategoryTotals(),
+      ])
+
+      setPeople(peopleData)
+      setCategories(categoryData)
+      setTransactions(transactionData)
+      setPeopleTotals(peopleTotalsData)
+      setCategoryTotals(categoryTotalsData)
+    } catch (error) {
+      setLoadError((error as Error).message)
+    }
+  }, [])
+
+  const { handleSave: handleSavePerson, handleDelete: handleDeletePerson } =
+    usePersonActions({
+      personForm,
+      setPersonForm,
+      editingPersonId,
+      setEditingPersonId,
+      setErrors: setPersonErrors,
+      loadAll,
+    })
+
+  const { handleSave: handleSaveCategory } = useCategoryActions({
+    categoryForm,
+    reset: resetCategoryForm,
+    setErrors: setCategoryErrors,
+    loadAll,
+  })
+
+  const { handleSave: handleSaveTransaction } = useTransactionActions({
+    transactionForm,
+    reset: resetTransactionForm,
+    setErrors: setTransactionErrors,
+    loadAll,
+  })
+
   useEffect(() => {
     void loadAll()
-  }, [])
+  }, [loadAll])
 
   useEffect(() => {
     if (!transactionForm.personId) {
@@ -147,147 +198,6 @@ export default function App() {
     )
   }, [categories, transactionForm.type])
 
-  async function loadAll() {
-    try {
-      const [
-        peopleData,
-        categoryData,
-        transactionData,
-        peopleTotalsData,
-        categoryTotalsData,
-      ] = await Promise.all([
-        getPeople(),
-        getCategories(),
-        getTransactions(),
-        getPeopleTotals(),
-        getCategoryTotals(),
-      ])
-
-      setPeople(peopleData)
-      setCategories(categoryData)
-      setTransactions(transactionData)
-      setPeopleTotals(peopleTotalsData)
-      setCategoryTotals(categoryTotalsData)
-    } catch (error) {
-      setPersonErrors((prev) => ({ ...prev, form: (error as Error).message }))
-    }
-  }
-
-  async function handleSavePerson() {
-    try {
-      const ageNumber = Number(personForm.age)
-      const errors: { name?: string; age?: string } = {}
-
-      if (!personForm.name.trim()) {
-        errors.name = 'Nome é obrigatório.'
-      }
-
-      if (Number.isNaN(ageNumber)) {
-        errors.age = 'Idade é obrigatória.'
-      }
-
-      if (Object.keys(errors).length > 0) {
-        setPersonErrors(errors)
-        return
-      }
-
-      if (editingPersonId) {
-        await updatePerson(editingPersonId, personForm.name, ageNumber)
-      } else {
-        await createPerson(personForm.name, ageNumber)
-      }
-
-      setPersonForm({ name: '', age: '' })
-      setEditingPersonId(null)
-      await loadAll()
-      setPersonErrors({})
-    } catch (error) {
-      setPersonErrors((prev) => ({ ...prev, form: (error as Error).message }))
-    }
-  }
-
-  async function handleDeletePerson(id: number) {
-    if (!confirm('Tem certeza que deseja excluir esta pessoa?')) {
-      return
-    }
-
-    try {
-      await deletePerson(id)
-      await loadAll()
-      setPersonErrors({})
-    } catch (error) {
-      setPersonErrors((prev) => ({ ...prev, form: (error as Error).message }))
-    }
-  }
-
-  async function handleSaveCategory() {
-    try {
-      if (!categoryForm.description.trim()) {
-        setCategoryErrors({ description: 'Descrição é obrigatória.' })
-        return
-      }
-
-      await createCategory(categoryForm.description, categoryForm.purpose)
-      resetCategoryForm()
-      await loadAll()
-      setCategoryErrors({})
-    } catch (error) {
-      setCategoryErrors((prev) => ({ ...prev, form: (error as Error).message }))
-    }
-  }
-
-  async function handleSaveTransaction() {
-    try {
-      const valueNumber = Number(transactionForm.value)
-      const errors: {
-        description?: string
-        value?: string
-        personId?: string
-        categoryId?: string
-      } = {}
-
-      if (!transactionForm.description.trim()) {
-        errors.description = 'Descrição é obrigatória.'
-      }
-
-      if (Number.isNaN(valueNumber)) {
-        errors.value = 'Valor é obrigatório.'
-      } else if (valueNumber <= 0) {
-        errors.value = 'Valor deve ser positivo.'
-      }
-
-      const categoryId = Number(transactionForm.categoryId)
-      const personId = Number(transactionForm.personId)
-
-      if (!categoryId || !personId) {
-        if (!personId) {
-          errors.personId = 'Selecione uma pessoa.'
-        }
-        if (!categoryId) {
-          errors.categoryId = 'Selecione uma categoria.'
-        }
-      }
-
-      if (Object.keys(errors).length > 0) {
-        setTransactionErrors(errors)
-        return
-      }
-
-      await createTransaction(
-        transactionForm.description,
-        valueNumber,
-        transactionForm.type,
-        categoryId,
-        personId
-      )
-      resetTransactionForm()
-      await loadAll()
-      setTransactionErrors({})
-    } catch (error) {
-      setTransactionErrors((prev) => ({ ...prev, form: (error as Error).message }))
-    }
-  }
-
   return (
     <div className="app">
       <header>
@@ -295,6 +205,11 @@ export default function App() {
         <p>
           Cadastros e relatórios com regras de negócio aplicadas.
         </p>
+        {loadError && (
+          <p className="load-error" role="alert">
+            {loadError}
+          </p>
+        )}
       </header>
 
       <PeopleSection
