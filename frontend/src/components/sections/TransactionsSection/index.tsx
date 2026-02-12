@@ -7,6 +7,7 @@ import type { Category, Person, Transaction, TransactionType } from '../../../ty
 type TransactionErrors = {
   description?: string
   value?: string
+  type?: string
   personId?: string
   categoryId?: string
   form?: string
@@ -82,13 +83,15 @@ export default function TransactionsSection({
             name='valor-transacao'
           />
         </FormField>
-        <FormField label="Tipo">
+        <FormField label="Tipo" error={errors.type}>
           <select
+            className={errors.type ? 'input-error' : undefined}
             value={form.type}
             onChange={(event) => onTypeChange(event.target.value as TransactionType)}
             disabled={isTypeDisabled}
             name='tipo-transacao'
           >
+            <option value="" disabled>Selecione um tipo</option>
             <option value="Expense">Despesa</option>
             <option value="Income">Receita</option>
           </select>

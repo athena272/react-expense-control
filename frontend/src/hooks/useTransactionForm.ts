@@ -4,6 +4,7 @@ import type { TransactionType } from '../types'
 type TransactionErrors = {
   description?: string
   value?: string
+  type?: string
   personId?: string
   categoryId?: string
   form?: string
@@ -13,7 +14,7 @@ export function useTransactionForm() {
   const [form, setForm] = useState({
     description: '',
     value: '',
-    type: 'Expense' as TransactionType,
+    type: '' as TransactionType,
     categoryId: '',
     personId: '',
   })
@@ -39,8 +40,8 @@ export function useTransactionForm() {
 
   const updateType = (value: TransactionType) => {
     setForm((prev) => ({ ...prev, type: value }))
-    if (errors.form) {
-      setErrors((prev) => ({ ...prev, form: undefined }))
+    if (errors.form || errors.type) {
+      setErrors((prev) => ({ ...prev, form: undefined, type: undefined }))
     }
   }
 
@@ -62,7 +63,7 @@ export function useTransactionForm() {
     setForm({
       description: '',
       value: '',
-      type: 'Expense',
+      type: '' as TransactionType,
       categoryId: '',
       personId: '',
     })
