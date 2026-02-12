@@ -6,6 +6,7 @@ import type { Category, CategoryPurpose } from '../../../types'
 
 type CategoryErrors = {
   description?: string
+  purpose?: string
   form?: string
 }
 
@@ -46,15 +47,16 @@ export default function CategoriesSection({
             name='descricao-categoria'
           />
         </FormField>
-        <FormField label="Finalidade">
+        <FormField label="Finalidade" error={errors.purpose}>
           <select
-            className={errors.form ? 'input-error' : undefined}
+            className={errors.purpose ? 'input-error' : undefined}
             value={categoryForm.purpose}
             onChange={(event) =>
               onPurposeChange(event.target.value as CategoryPurpose)
             }
             name='finalidade-categoria'
           >
+            <option value="" disabled>Selecione uma finalidade</option>
             <option value="Expense">Despesa</option>
             <option value="Income">Receita</option>
             <option value="Both">Ambas</option>
