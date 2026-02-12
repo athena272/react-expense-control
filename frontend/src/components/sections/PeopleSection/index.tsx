@@ -49,7 +49,7 @@ export default function PeopleSection({
             value={personForm.name}
             onChange={(event) => onNameChange(event.target.value)}
             maxLength={200}
-            placeholder="Nome completo"
+            placeholder="Digite seu nome completo"
             name='nome-completo'
           />
         </FormField>
@@ -60,7 +60,7 @@ export default function PeopleSection({
             className={errors.age ? 'input-error' : undefined}
             value={personForm.age}
             onChange={(event) => onAgeChange(event.target.value)}
-            placeholder="Idade"
+            placeholder="Digite sua idade"
             name='idade'
           />
         </FormField>
